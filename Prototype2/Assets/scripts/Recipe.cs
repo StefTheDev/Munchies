@@ -16,7 +16,7 @@ public class Recipe : MonoBehaviour
     private void Start()
     {
         foods = new List<FoodType>();
-        for(int i = 0; )
+        // for(int i = 0; )
     }
 
     private FoodType RandomFood()
