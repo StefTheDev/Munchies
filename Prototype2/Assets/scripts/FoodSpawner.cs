@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class FoodSpawner : MonoBehaviour
 {
+    // Singleton
+    private static FoodSpawner instance;
+
+    public static FoodSpawner Instance { get { return instance; } }
+
     public Transform conveyorUp;
     public Transform conveyorDown;
     public Transform conveyorLeft;
@@ -16,6 +21,15 @@ public class FoodSpawner : MonoBehaviour
 
     private void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+
         Random.InitState((int)System.DateTime.Now.Ticks);
     }
 
@@ -26,29 +40,20 @@ public class FoodSpawner : MonoBehaviour
         if (beatTimer <= 0.0f)
         {
             beatTimer = beatInterval;
-            SpawnAllConveyors();
             OnBeat();
         }
-    }
-
-    private void SpawnAllConveyors()
-    {
-        SpawnRandomFood(conveyorUp);
-        SpawnRandomFood(conveyorDown);
-        SpawnRandomFood(conveyorLeft);
-        SpawnRandomFood(conveyorRight);
-    }
-
-    private void SpawnRandomFood(Transform foodPosition)
-    {
-        int foodType = Random.Range(0, foodTypes.Length);
-
-        Instantiate(foodTypes[foodType], foodPosition.position, foodPosition.rotation, null); 
     }
 
     public void OnBeat()
     {
         var player = GameObject.FindObjectOfType<Player>();
         player.eatenThisBeat = false;
+
+        var conveyors = FindObjectsOfType<Conveyor>();
+
+        foreach(Conveyor conveyor in conveyors)
+        {
+            conveyor.Beat();
+        }
     }
 }
