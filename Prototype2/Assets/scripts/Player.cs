@@ -88,5 +88,15 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        var food = other.GetComponent<Food>();
 
+        // If we are colliding with a food object
+        if (food)
+        {
+            Debug.Log("Ate food. IsGood = " + food.isGood);
+            Destroy(food.gameObject);
+        }
+    }
 }
