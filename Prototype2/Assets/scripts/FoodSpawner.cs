@@ -27,6 +27,7 @@ public class FoodSpawner : MonoBehaviour
         {
             beatTimer = beatInterval;
             SpawnAllConveyors();
+            OnBeat();
         }
     }
 
@@ -43,5 +44,11 @@ public class FoodSpawner : MonoBehaviour
         int foodType = Random.Range(0, foodTypes.Length);
 
         Instantiate(foodTypes[foodType], foodPosition.position, foodPosition.rotation, null); 
+    }
+
+    public void OnBeat()
+    {
+        var player = GameObject.FindObjectOfType<Player>();
+        player.eatenThisBeat = false;
     }
 }

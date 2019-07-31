@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     // The most recent directional key pressed by the player determines their position
     Vector3 movePosition;
 
+    public bool eatenThisBeat = false;
+
     enum KeyType
     {
         UP = 0,
@@ -35,6 +37,8 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (eatenThisBeat) { return; }
+
         this.transform.position = initialPosition + (movePosition * distanceFromCenter);
         this.transform.rotation = Quaternion.Euler(0.0f, Vector3.SignedAngle(Vector3.forward, movePosition, Vector3.up), 0.0f);
     }
@@ -90,6 +94,9 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // Only eat once per beat
+        if (eatenThisBeat) { return; }
+
         var food = other.GetComponent<Food>();
 
         // If we are colliding with a food object
@@ -97,6 +104,8 @@ public class Player : MonoBehaviour
         {
             Debug.Log("Ate food. IsGood = " + food.isGood);
             Destroy(food.gameObject);
+
+            eatenThisBeat = true;
         }
     }
 }
