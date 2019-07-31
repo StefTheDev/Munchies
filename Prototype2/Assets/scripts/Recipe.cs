@@ -1,28 +1,42 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Recipe : MonoBehaviour
 {
-    enum FoodType
+    public enum Food
     {
         APPLE,
+        CHIPS,
+        ORANGE
     };
 
-    public int size = 0;
-    private List<FoodType> foods;
+    private Image[] images;
+    private List<Image> foods;
 
-    private void Start()
+    public Recipe Initialise(int size)
     {
-        foods = new List<FoodType>();
-        // for(int i = 0; )
+        this.foods = new List<Image>();
+        this.images = Resources.LoadAll<Image>("Food");
+
+        for(int i = 0; i < size; i++)
+        {
+            foreach(Image image in images)
+            {
+                if (image.name.ToUpper() == RandomFood().ToString().ToUpper())
+                {
+                    foods.Add(Instantiate(image, transform, false));
+                }
+            }
+        }
+        return this;
     }
 
-    private FoodType RandomFood()
+    private Food RandomFood()
     {
-        Array values = Enum.GetValues(typeof(FoodType));
-        System.Random random = new System.Random();
-        return (Recipe.FoodType) values.GetValue(random.Next(values.Length));
+        return (Food)UnityEngine.Random.Range(0, 3);
     }
 }
