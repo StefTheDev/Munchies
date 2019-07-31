@@ -5,14 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(CapsuleCollider))]
 public class ConveyorPusher : MonoBehaviour
 {
-    public enum PushDirection
-    {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT
-    }
-
     public PushDirection pushDirection;
     public float pushForce = 1.0f;
     private Vector3 pushVector;
