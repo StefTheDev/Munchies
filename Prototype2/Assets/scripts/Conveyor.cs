@@ -19,8 +19,7 @@ public class Conveyor : MonoBehaviour
     {
         foodObjects = new List<GameObject>();
     }
-
-
+    
     public void Beat()
     {
         
@@ -61,6 +60,9 @@ public class Conveyor : MonoBehaviour
     {
         int foodType = Random.Range(0, FoodSpawner.Instance.foodTypes.Length);
 
-        foodObjects.Add(Instantiate(FoodSpawner.Instance.foodTypes[foodType], movePositions[0].position, movePositions[0].rotation, null));
+        var newFoodObject = Instantiate(FoodSpawner.Instance.foodTypes[foodType], movePositions[0].position, movePositions[0].rotation, null);
+        newFoodObject.GetComponent<Food>().type = (FoodType)foodType;
+        foodObjects.Add(newFoodObject);
+
     }
 }

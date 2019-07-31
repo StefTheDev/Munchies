@@ -102,7 +102,8 @@ public class Player : MonoBehaviour
         // If we are colliding with a food object
         if (food)
         {
-            Debug.Log("Ate food. IsGood = " + food.isGood);
+            // Debug.Log("Ate food. IsGood = " + food.isGood);
+            Debug.Log("Ate " + food.type);
             Destroy(food.gameObject);
 
             eatenThisBeat = true;

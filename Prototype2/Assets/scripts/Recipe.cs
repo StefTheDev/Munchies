@@ -5,14 +5,15 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum FoodType
+{
+    APPLE,
+    ORANGE,
+    CHIPS
+};
+
 public class Recipe : MonoBehaviour
 {
-    public enum Food
-    {
-        APPLE,
-        CHIPS,
-        ORANGE
-    };
 
     private Image[] images;
     private List<Image> foods;
@@ -35,8 +36,8 @@ public class Recipe : MonoBehaviour
         return this;
     }
 
-    private Food RandomFood()
+    private FoodType RandomFood()
     {
-        return (Food)UnityEngine.Random.Range(0, 3);
+        return (FoodType)UnityEngine.Random.Range(0, 3);
     }
 }
