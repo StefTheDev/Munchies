@@ -6,7 +6,10 @@ public class Player : MonoBehaviour
 {
     public float distanceFromCenter = 1.0f;
 
+    public AudioClip bite1;
+
     private Vector3 initialPosition;
+    private AudioSource audioSource;
 
     // The most recent directional key pressed by the player determines their position
     Vector3 movePosition;
@@ -27,6 +30,7 @@ public class Player : MonoBehaviour
     {
         initialPosition = this.transform.position;
         keys = new bool[4];
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -105,6 +109,9 @@ public class Player : MonoBehaviour
             // Debug.Log("Ate food. IsGood = " + food.isGood);
             Debug.Log("Ate " + food.type);
             Destroy(food.gameObject);
+
+            audioSource.pitch = Random.Range(0.7f, 1.0f);
+            audioSource.PlayOneShot(bite1);
 
             eatenThisBeat = true;
         }

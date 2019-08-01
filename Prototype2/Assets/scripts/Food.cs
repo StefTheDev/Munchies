@@ -10,6 +10,6 @@ public class Food : MonoBehaviour
 
     public Food()
     {
-        movePosition = -1;
+        movePosition = 0;
     }
 }
