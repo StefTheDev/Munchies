@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
+// Unhealthy food types must be all at the bottom (The top of FoodType & HealthyFoodType must be the same)
 public enum FoodType
 {
     APPLE,
@@ -12,32 +13,77 @@ public enum FoodType
     CHIPS
 };
 
+public enum HealthyFoodType
+{
+    APPLE,
+    ORANGE
+};
+
 public class Recipe : MonoBehaviour
 {
-
     private Image[] images;
-    private List<Image> foods;
+    public List<Image> foodImages;
+    public List<HealthyFoodType> recipeFood;
+    private int completionScore;
+    private int numHealthyFoods;
+
+    private void Awake()
+    {
+        numHealthyFoods = System.Enum.GetValues(typeof(HealthyFoodType)).Length;
+    }
 
     public Recipe Initialise(int size)
     {
-        this.foods = new List<Image>();
+        this.foodImages = new List<Image>();
         this.images = Resources.LoadAll<Image>("Food");
 
         for(int i = 0; i < size; i++)
         {
-            foreach(Image image in images)
+            var randomFood = RandomFood();
+
+            foreach (Image image in images)
             {
-                if (image.name.ToUpper() == RandomFood().ToString().ToUpper())
+                if (image.name.ToUpper() == randomFood.ToString().ToUpper())
                 {
-                    foods.Add(Instantiate(image, transform, false));
+                    foodImages.Add(Instantiate(image, transform, false));
+                    recipeFood.Add(randomFood);
+                    break;
                 }
             }
         }
+
+        completionScore = RecipeManager.foodScore * size;
+
         return this;
     }
 
-    private FoodType RandomFood()
+    private HealthyFoodType RandomFood()
     {
-        return (FoodType)UnityEngine.Random.Range(0, 3);
+        return (HealthyFoodType)UnityEngine.Random.Range(0, numHealthyFoods);
+    }
+
+    // Move to the next item in the recipe
+    public void AdvanceRecipe()
+    {
+        if (recipeFood.Count > 0)
+        {
+            recipeFood.RemoveAt(0);
+            foodImages.RemoveAt(0);
+
+            if (recipeFood.Count == 0)
+            {
+                GameManager.Instance.AddScore(completionScore);
+            }
+        } 
+    }
+
+    public HealthyFoodType GetNextFood()
+    {
+        return recipeFood[0];
+    }
+
+    public int GetSize()
+    {
+        return recipeFood.Count;
     }
 }
