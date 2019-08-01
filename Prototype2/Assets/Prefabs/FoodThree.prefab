@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fe6167ab5cdb84428a41b2730047900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGood: 0
+  isHealthy: 0
   movePosition: 0
   type: 2
 --- !u!65 &799375667
@@ -113,12 +113,12 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 396fb0c795eeca14abbbec73f0d716d8,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 396fb0c795eeca14abbbec73f0d716d8,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 396fb0c795eeca14abbbec73f0d716d8,
         type: 3}
