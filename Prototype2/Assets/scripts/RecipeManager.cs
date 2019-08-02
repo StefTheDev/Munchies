@@ -5,13 +5,31 @@ using UnityEngine.UI;
 
 public class RecipeManager : MonoBehaviour
 {
+    // Singleton
+    private static RecipeManager instance;
+
+    public static RecipeManager Instance { get { return instance; } }
+
     public int size = 0;
+    public static int foodScore = 10;
 
     public Recipe recipePrefab;
     public GridLayoutGroup gridLayoutGroup;
-
+    
     private Recipe recipe;
     private Image image;
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
 
     private void FixedUpdate()
     {
