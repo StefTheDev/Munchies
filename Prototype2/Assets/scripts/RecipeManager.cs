@@ -10,13 +10,12 @@ public class RecipeManager : MonoBehaviour
 
     public static RecipeManager Instance { get { return instance; } }
 
-    public int size = 0;
     public static int foodScore = 10;
 
     public Recipe recipePrefab;
     public GridLayoutGroup gridLayoutGroup;
     
-    private Recipe recipe;
+    private Recipe currentRecipe, nextRecipe;
     private Image image;
 
     private void Awake()
@@ -29,32 +28,53 @@ public class RecipeManager : MonoBehaviour
         {
             instance = this;
         }
-    }
 
-    private void FixedUpdate()
-    {
-        if(recipe == null)
-        {
-            CreateRecipe();
-        }
-        else if (recipe.IsFinished())
-        {
-            // We can give a special indication that the recipe is finished.
-            Destroy(recipe);
-            CreateRecipe();
-
-        }
-        else if (recipe.IsNotMatching(image))
-        {
-            //We give an indication that the next item was wron and it needs a new recipe.
-            Destroy(recipe);
-            CreateRecipe();
-        }
+        nextRecipe = Instantiate(recipePrefab, transform, false);
+        nextRecipe.Initialise(Random.Range(4, 8));
+        CreateRecipe();
     }
 
     private void CreateRecipe()
     {
-        recipe = Instantiate(recipePrefab, transform, false);
-        recipe.Initialise(Random.Range(4, 8));
+        currentRecipe = nextRecipe;
+        nextRecipe = Instantiate(recipePrefab, transform, false);
+        nextRecipe.Initialise(Random.Range(4, 8));
+    }
+
+    public void CheckFood(HealthyFoodType foodType)
+    {
+        if (foodType == currentRecipe.GetNextFood())
+        {
+            currentRecipe.AdvanceRecipe();
+
+            Debug.Log("Correct food item eaten!");
+
+            if (currentRecipe.GetSize() == 0)
+            {
+                PassRecipe();
+            }
+        }
+        else
+        {
+            FailRecipe();
+        }
+    }
+
+    private void PassRecipe()
+    {
+        currentRecipe.Completed();
+
+        Destroy(currentRecipe);
+        CreateRecipe();
+
+        Debug.Log("Recipe completed!");
+    }
+
+    private void FailRecipe()
+    {
+        Destroy(currentRecipe);
+        CreateRecipe();
+
+        Debug.Log("Recipe failed!");
     }
 }

@@ -23,7 +23,7 @@ public class Recipe : MonoBehaviour
 {
     private Image[] images;
     public Stack<Image> foodImages;
-    public List<HealthyFoodType> recipeFood;
+    public Stack<HealthyFoodType> recipeFood;
     private int completionScore, numHealthyFoods;
 
     private void Awake()
@@ -34,6 +34,7 @@ public class Recipe : MonoBehaviour
     public Recipe Initialise(int size)
     {
         this.foodImages = new Stack<Image>();
+        this.recipeFood = new Stack<HealthyFoodType>();
         this.images = Resources.LoadAll<Image>("Food");
 
         for(int i = 0; i < size; i++)
@@ -45,7 +46,7 @@ public class Recipe : MonoBehaviour
                 if (image.name.ToUpper() == randomFood.ToString().ToUpper())
                 {
                     foodImages.Push(Instantiate(image, transform, false));
-                    recipeFood.Add(randomFood);
+                    recipeFood.Push(randomFood);
                     break;
                 }
             }
@@ -58,20 +59,21 @@ public class Recipe : MonoBehaviour
     
     public bool IsFinished()
     {
-        return foods.Count <= 0;
+        return foodImages.Count <= 0;
     }
 
     public bool IsNotMatching(Image image)
     {
-        Image currentImage = foods.Peek();
+        Image currentImage = foodImages.Peek();
+
         if(currentImage == image)
         {
-            foods.Pop();
+            foodImages.Pop();
             return false;
         }
         else
         {
-            foods.Clear();
+            foodImages.Clear();
             return true;
         }
     }
@@ -84,25 +86,25 @@ public class Recipe : MonoBehaviour
     // Move to the next item in the recipe
     public void AdvanceRecipe()
     {
-        if(recipeFood.Count > 0)
+        if (recipeFood.Count > 0)
         {
-          recipeFood.RemoveAt(0);
-          foodImages.Pop();
-          if (recipeFood.Count == 0)
-          {
-                GameManager.Instance.AddScore(completionScore);
-          }
+            recipeFood.Pop();
+            foodImages.Pop();
         }
     }
 
-    //Make this a stack
     public HealthyFoodType GetNextFood()
     {
-        return recipeFood[0];
+        return recipeFood.Peek();
     }
 
     public int GetSize()
     {
         return recipeFood.Count;
+    }
+
+    public void Completed()
+    {
+        GameManager.Instance.AddScore(completionScore);
     }
 }
