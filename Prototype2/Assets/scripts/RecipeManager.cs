@@ -13,9 +13,11 @@ public class RecipeManager : MonoBehaviour
     public int size = 0;
     public static int foodScore = 10;
 
-    public Recipe recipe;
+    public Recipe recipePrefab;
     public GridLayoutGroup gridLayoutGroup;
-    public List<Recipe> recipes;
+    
+    private Recipe recipe;
+    private Image image;
 
     private void Awake()
     {
@@ -29,36 +31,30 @@ public class RecipeManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void FixedUpdate()
     {
-        this.recipes = new List<Recipe>();
-
-        for (int i = 0; i < size; i++)
+        if(recipe == null)
         {
-            if(i != 0)
-            this.recipes.Add(Instantiate(
-                this.recipe, 
-                Vector3.zero,
-                Quaternion.identity,
-                gridLayoutGroup.transform).Initialise(Random.Range(4, 8))
-            );
+            CreateRecipe();
+        }
+        else if (recipe.IsFinished())
+        {
+            // We can give a special indication that the recipe is finished.
+            Destroy(recipe);
+            CreateRecipe();
+
+        }
+        else if (recipe.IsNotMatching(image))
+        {
+            //We give an indication that the next item was wron and it needs a new recipe.
+            Destroy(recipe);
+            CreateRecipe();
         }
     }
 
-    public bool CheckFood(HealthyFoodType foodType)
+    private void CreateRecipe()
     {
-        if (recipes[0].GetSize() == 0)
-        {
-            recipes.RemoveAt(0);
-        }
-
-        if (recipes[0].GetNextFood() == foodType)
-        {
-            recipes[0].AdvanceRecipe();
-            return true;
-        }
-
-        return false;
-        
+        recipe = Instantiate(recipePrefab, transform, false);
+        recipe.Initialise(Random.Range(4, 8));
     }
 }

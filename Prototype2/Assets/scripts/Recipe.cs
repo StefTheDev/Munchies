@@ -22,10 +22,9 @@ public enum HealthyFoodType
 public class Recipe : MonoBehaviour
 {
     private Image[] images;
-    public List<Image> foodImages;
+    public Stack<Image> foodImages;
     public List<HealthyFoodType> recipeFood;
-    private int completionScore;
-    private int numHealthyFoods;
+    private int completionScore, numHealthyFoods;
 
     private void Awake()
     {
@@ -34,7 +33,7 @@ public class Recipe : MonoBehaviour
 
     public Recipe Initialise(int size)
     {
-        this.foodImages = new List<Image>();
+        this.foodImages = new Stack<Image>();
         this.images = Resources.LoadAll<Image>("Food");
 
         for(int i = 0; i < size; i++)
@@ -45,7 +44,7 @@ public class Recipe : MonoBehaviour
             {
                 if (image.name.ToUpper() == randomFood.ToString().ToUpper())
                 {
-                    foodImages.Add(Instantiate(image, transform, false));
+                    foodImages.Push(Instantiate(image, transform, false));
                     recipeFood.Add(randomFood);
                     break;
                 }
@@ -56,7 +55,27 @@ public class Recipe : MonoBehaviour
 
         return this;
     }
+    
+    public bool IsFinished()
+    {
+        return foods.Count <= 0;
+    }
 
+    public bool IsNotMatching(Image image)
+    {
+        Image currentImage = foods.Peek();
+        if(currentImage == image)
+        {
+            foods.Pop();
+            return false;
+        }
+        else
+        {
+            foods.Clear();
+            return true;
+        }
+    }
+    
     private HealthyFoodType RandomFood()
     {
         return (HealthyFoodType)UnityEngine.Random.Range(0, numHealthyFoods);
@@ -65,18 +84,18 @@ public class Recipe : MonoBehaviour
     // Move to the next item in the recipe
     public void AdvanceRecipe()
     {
-        if (recipeFood.Count > 0)
+        if(recipeFood.Count > 0)
         {
-            recipeFood.RemoveAt(0);
-            foodImages.RemoveAt(0);
-
-            if (recipeFood.Count == 0)
-            {
+          recipeFood.RemoveAt(0);
+          foodImages.Pop();
+          if (recipeFood.Count == 0)
+          {
                 GameManager.Instance.AddScore(completionScore);
-            }
-        } 
+          }
+        }
     }
 
+    //Make this a stack
     public HealthyFoodType GetNextFood()
     {
         return recipeFood[0];
