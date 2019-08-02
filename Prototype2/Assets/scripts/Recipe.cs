@@ -15,11 +15,11 @@ public class Recipe : MonoBehaviour
     };
 
     private Image[] images;
-    private List<Image> foods;
+    private Stack<Image> foods;
 
     public Recipe Initialise(int size)
     {
-        this.foods = new List<Image>();
+        this.foods = new Stack<Image>();
         this.images = Resources.LoadAll<Image>("Food");
 
         for(int i = 0; i < size; i++)
@@ -28,11 +28,31 @@ public class Recipe : MonoBehaviour
             {
                 if (image.name.ToUpper() == RandomFood().ToString().ToUpper())
                 {
-                    foods.Add(Instantiate(image, transform, false));
+                    foods.Push(Instantiate(image, transform, false));
                 }
             }
         }
         return this;
+    }
+
+    public bool IsFinished()
+    {
+        return foods.Count <= 0;
+    }
+
+    public bool IsNotMatching(Image image)
+    {
+        Image currentImage = foods.Peek();
+        if(currentImage == image)
+        {
+            foods.Pop();
+            return false;
+        }
+        else
+        {
+            foods.Clear();
+            return true;
+        }
     }
 
     private Food RandomFood()
