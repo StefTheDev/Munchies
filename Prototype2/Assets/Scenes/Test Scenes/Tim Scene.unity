@@ -1422,6 +1422,12 @@ PrefabInstance:
       propertyPath: m_ChildAlignment
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1416503234854011421, guid: 09ddf4431d260334abf00d2e2dc96fd1,
+        type: 3}
+      propertyPath: recipePrefab
+      value: 
+      objectReference: {fileID: 4893885139697658187, guid: 9d6410e7b9f5af049aac667b33573a3a,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09ddf4431d260334abf00d2e2dc96fd1, type: 3}
 --- !u!1001 &8112482162322473333
