@@ -14,7 +14,7 @@ public class RecipeManager : MonoBehaviour
 
     public Recipe recipePrefab;
     public GridLayoutGroup gridLayoutGroup;
-    
+     
     private Recipe currentRecipe, nextRecipe;
     private Image image;
 
