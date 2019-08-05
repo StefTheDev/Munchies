@@ -12,11 +12,7 @@ public class RecipeManager : MonoBehaviour
 
     public static int foodScore = 10;
 
-    public Recipe recipePrefab;
-    public GridLayoutGroup gridLayoutGroup;
-     
-    private Recipe currentRecipe, nextRecipe;
-    private Image image;
+    public Recipe currentRecipe, nextRecipe;
 
     private void Awake()
     {
@@ -29,52 +25,31 @@ public class RecipeManager : MonoBehaviour
             instance = this;
         }
 
-        nextRecipe = Instantiate(recipePrefab, transform, false);
-        nextRecipe.Initialise(Random.Range(4, 8));
-        CreateRecipe();
+        currentRecipe.Initialise(null);
+        nextRecipe.Initialise(null);
     }
 
-    private void CreateRecipe()
+    public void Check(Food food)
     {
-        currentRecipe = nextRecipe;
-        nextRecipe = Instantiate(recipePrefab, transform, false);
-        nextRecipe.Initialise(Random.Range(4, 8));
-    }
-
-    public void CheckFood(HealthyFoodType foodType)
-    {
-        if (foodType == currentRecipe.GetNextFood())
+        if(currentRecipe.Check(food))
         {
-            currentRecipe.AdvanceRecipe();
-
-            Debug.Log("Correct food item eaten!");
-
-            if (currentRecipe.GetSize() == 0)
+            if (currentRecipe.GetIndex() == 0)
             {
-                PassRecipe();
+                Debug.Log("Time for next recipe.");
+                Next(true);
             }
         }
         else
         {
-            FailRecipe();
+            Next(false);
         }
     }
 
-    private void PassRecipe()
+    public void Next(bool completed)
     {
-        currentRecipe.Completed();
+        if (completed) currentRecipe.Complete();
 
-        Destroy(currentRecipe);
-        CreateRecipe();
-
-        Debug.Log("Recipe completed!");
-    }
-
-    private void FailRecipe()
-    {
-        Destroy(currentRecipe);
-        CreateRecipe();
-
-        Debug.Log("Recipe failed!");
+        currentRecipe.Initialise(nextRecipe.GetImages());
+        nextRecipe.Initialise(null);
     }
 }

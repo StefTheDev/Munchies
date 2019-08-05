@@ -5,106 +5,83 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-// Unhealthy food types must be all at the bottom (The top of FoodType & HealthyFoodType must be the same)
-public enum FoodType
-{
-    APPLE,
-    ORANGE,
-    CHIPS
-};
-
-public enum HealthyFoodType
-{
-    APPLE,
-    ORANGE
-};
-
 public class Recipe : MonoBehaviour
 {
-    private Image[] images;
-    public Stack<Image> foodImages;
-    public Stack<HealthyFoodType> recipeFood;
-    private int completionScore, numHealthyFoods;
+    public List<Image> images;
+    public Sprite check;
 
-    private void Awake()
+    private int completionScore;
+    private Food[] foods;
+
+    private int currentIndex;
+
+    public void Initialise(List<Image> images)
     {
-        numHealthyFoods = System.Enum.GetValues(typeof(HealthyFoodType)).Length;
-    }
+        foods = Resources.LoadAll<Food>("Foods");
+        currentIndex = 0;
 
-    public Recipe Initialise(int size)
-    {
-        this.foodImages = new Stack<Image>();
-        this.recipeFood = new Stack<HealthyFoodType>();
-        this.images = Resources.LoadAll<Image>("Food");
-
-        for(int i = 0; i < size; i++)
+        if (images == null)
         {
-            var randomFood = RandomFood();
 
-            foreach (Image image in images)
+            for (int i = 0; i < this.images.Count; i++)
             {
-                if (image.name.ToUpper() == randomFood.ToString().ToUpper())
-                {
-                    foodImages.Push(Instantiate(image, transform, false));
-                    recipeFood.Push(randomFood);
-                    break;
-                }
+                Image image = this.images[i];
+                image.sprite = Random().sprite;
+                currentIndex++;
             }
-        }
-
-        completionScore = RecipeManager.foodScore * size;
-
-        return this;
-    }
-    
-    public bool IsFinished()
-    {
-        return foodImages.Count <= 0;
-    }
-
-    public bool IsNotMatching(Image image)
-    {
-        Image currentImage = foodImages.Peek();
-
-        if(currentImage == image)
-        {
-            foodImages.Pop();
-            return false;
         }
         else
         {
-            foodImages.Clear();
+            Debug.Log("Swapping...");
+            for (int i = 0; i < this.images.Count; i++)
+            {
+                Image image = this.images[i];
+                image.sprite = images[i].sprite;
+                currentIndex++;
+            }
+        }
+
+        completionScore = RecipeManager.foodScore * currentIndex;
+    }
+
+    public bool Check(Food food)
+    {
+        Image image = images[currentIndex - 1];
+        if (food.sprite.name.Equals(image.sprite.name))
+        {
+            images[currentIndex- 1].sprite = check;
+            currentIndex -= 1;
             return true;
         }
-    }
-    
-    private HealthyFoodType RandomFood()
-    {
-        return (HealthyFoodType)UnityEngine.Random.Range(0, numHealthyFoods);
+        return false;
     }
 
-    // Move to the next item in the recipe
-    public void AdvanceRecipe()
+    private Food Random()
     {
-        if (recipeFood.Count > 0)
+        System.Random random = new System.Random();
+        Food food = foods[UnityEngine.Random.Range(0, foods.Length)];
+        if (food.isHealthy)
         {
-            recipeFood.Pop();
-            foodImages.Pop();
+            return food;
+        }
+        else
+        {
+            return Random();
         }
     }
 
-    public HealthyFoodType GetNextFood()
+    public int GetIndex()
     {
-        return recipeFood.Peek();
+        return currentIndex;
     }
 
-    public int GetSize()
-    {
-        return recipeFood.Count;
-    }
-
-    public void Completed()
+    public void Complete()
     {
         GameManager.Instance.AddScore(completionScore);
+    }
+
+    public List<Image> GetImages()
+    {
+        return images;
     }
 }
