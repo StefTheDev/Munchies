@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -14,6 +15,12 @@ public class ScoreManager : MonoBehaviour
     public int fiveStarScore;
     private int playerScore = 0;
     private int scoreMilestone = 0;
+
+    public Sprite filledStar;
+
+    public Image scoreBar;
+
+    public Image[] stars;
 
     private void Awake()
     {
@@ -39,6 +46,8 @@ public class ScoreManager : MonoBehaviour
             scoreMilestone++;
             OnGetStar(scoreMilestone);
         }
+
+        scoreBar.fillAmount = Mathf.Clamp(((float)playerScore / fiveStarScore), 0.0f, 1.0f);
     }
 
     public int GetScore()
@@ -49,6 +58,9 @@ public class ScoreManager : MonoBehaviour
     private void OnGetStar(int starNum)
     {
         finalStars = starNum;
+
+        stars[starNum - 1].sprite = filledStar;
+        stars[starNum - 1].GetComponent<Animator>().SetTrigger("Get");
 
         switch (starNum)
         {
