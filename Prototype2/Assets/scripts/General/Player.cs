@@ -115,10 +115,8 @@ public class Player : MonoBehaviour
         {
             if (food.isHealthy)
             {
-                HealthyFoodType foodType = (HealthyFoodType)food.type;
                 GameManager.Instance.AddScore(RecipeManager.foodScore);
-
-                RecipeManager.Instance.CheckFood(foodType);
+                RecipeManager.Instance.Check(food);
             }
             else
             {
