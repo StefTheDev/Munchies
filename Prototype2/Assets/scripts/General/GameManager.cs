@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
@@ -11,9 +12,10 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get { return instance; } }
 
-    public TextMeshPro tempScoreText;
-    public TextMeshPro tempHealthText;
-    public TextMeshPro tempFullnessText;
+    public int score = 0;
+
+    public Slider healthSlider;
+    public Slider hungerSlider;
 
     public AudioSource levelMusic;
 
@@ -48,6 +50,9 @@ public class GameManager : MonoBehaviour
         Random.InitState((int)System.DateTime.Now.Ticks);
         player = GameObject.FindObjectOfType<Player>();
         conveyors = GameObject.FindObjectsOfType<Conveyor>();
+
+        healthSlider.maxValue = player.maxHealth;
+        hungerSlider.maxValue = player.maxFullness;
     }
 
     private void Update()
@@ -71,14 +76,14 @@ public class GameManager : MonoBehaviour
 
     public void AddScore(int newScore)
     {
+        score += newScore;
         ScoreManager.Instance.AddScore(newScore);
-        tempScoreText.text = "Score: " + ScoreManager.Instance.GetScore();
     }
 
     private void FixedUpdate()
     {
-        tempHealthText.text = "Health: " + player.currentHealth;
-        tempFullnessText.text = "Fullness: " + player.currentFullness;
+        healthSlider.value = player.currentHealth;
+        hungerSlider.value = player.currentFullness;
     }
 
     private void GameBeat()
