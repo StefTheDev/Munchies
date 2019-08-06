@@ -54,30 +54,35 @@ public class ScoreManager : MonoBehaviour
         {
             case 1:
                 {
+
                     Debug.Log("GOT STAR ONE");
                     break;
                 }
 
             case 2:
                 {
+
                     Debug.Log("GOT STAR TWO");
                     break;
                 }
 
             case 3:
                 {
+
                     Debug.Log("GOT STAR THREE");
                     break;
                 }
 
             case 4:
                 {
+
                     Debug.Log("GOT STAR FOUR");
                     break;
                 }
 
             case 5:
                 {
+
                     Debug.Log("GOT STAR FIVE");
                     break;
                 }
