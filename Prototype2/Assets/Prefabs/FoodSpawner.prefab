@@ -142,9 +142,9 @@ MonoBehaviour:
   conveyorLeft: {fileID: 1837257488928814611}
   conveyorRight: {fileID: 1837257490170335392}
   foodTypes:
-  - {fileID: 3349948999790057704, guid: d11d23f6b59234b47aa9cb75992a881b, type: 3}
-  - {fileID: 2654807158057012507, guid: 4be821b394a094544b06b17fdd3c0bc7, type: 3}
-  - {fileID: 8611134377610645303, guid: 4aede6b41cc852349a0f2efe9d19d504, type: 3}
+  - {fileID: 7490084511224357574, guid: d11d23f6b59234b47aa9cb75992a881b, type: 3}
+  - {fileID: 7323579160250737281, guid: 4be821b394a094544b06b17fdd3c0bc7, type: 3}
+  - {fileID: 5931457625228819840, guid: 4aede6b41cc852349a0f2efe9d19d504, type: 3}
   beatInterval: 1
 --- !u!1 &1837257490170335395
 GameObject:
