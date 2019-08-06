@@ -16,11 +16,16 @@ public class GameManager : MonoBehaviour
     public TextMeshPro tempHealthText;
     public TextMeshPro tempFullnessText;
 
+    public AudioSource levelMusic;
+
     private Player player;
     private Conveyor[] conveyors;
 
     public float beatInterval = 1.0f;
     private float beatTimer = 0.0f;
+
+    private bool levelComplete = false;
+    private bool paused = false;
 
     private void Awake()
     {
@@ -48,6 +53,8 @@ public class GameManager : MonoBehaviour
             beatTimer = beatInterval;
             GameBeat();
         }
+
+        if (Input.GetKeyDown(KeyCode.P)) { TogglePause(); }
     }
 
     public void AddScore(int newScore)
@@ -60,6 +67,8 @@ public class GameManager : MonoBehaviour
     {
         tempHealthText.text = "Health: " + player.currentHealth;
         tempFullnessText.text = "Fullness: " + player.currentFullness;
+
+        
     }
 
     private void GameBeat()
@@ -71,5 +80,21 @@ public class GameManager : MonoBehaviour
         {
             conveyor.Beat();
         }
+    }
+
+    public void TogglePause()
+    {
+        if (paused)
+        {
+            Time.timeScale = 0.0f;
+            levelMusic.Pause();
+        }
+        else
+        {
+            Time.timeScale = 1.0f;
+            levelMusic.UnPause();
+        }
+
+        paused = !paused;
     }
 }
