@@ -16,6 +16,10 @@ public class Player : MonoBehaviour
     public int currentHealth;
     public int currentFullness;
 
+    public CameraShake cameraShake;
+    public float shakeMagnitude = 1.0f;
+    public float shakeDuration = 0.5f;
+
     public GameObject mesh;
     private Animator meshAnimator;
     private Animator playerAnimator;
@@ -165,6 +169,8 @@ public class Player : MonoBehaviour
         {
             GameManager.Instance.GameOver();
         }
+
+        StartCoroutine(cameraShake.Shake(shakeDuration, shakeMagnitude));
     }
 
 }
