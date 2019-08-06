@@ -51,8 +51,8 @@ public class GameManager : MonoBehaviour
         player = GameObject.FindObjectOfType<Player>();
         conveyors = GameObject.FindObjectsOfType<Conveyor>();
 
-        healthSlider.maxValue = player.maxHealth;
-        hungerSlider.maxValue = player.maxFullness;
+        // healthSlider.maxValue = player.maxHealth;
+        // hungerSlider.maxValue = player.maxFullness;
     }
 
     private void Update()
@@ -82,8 +82,8 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        healthSlider.value = player.currentHealth;
-        hungerSlider.value = player.currentFullness;
+        // healthSlider.value = player.currentHealth;
+        // hungerSlider.value = player.currentFullness;
     }
 
     private void GameBeat()

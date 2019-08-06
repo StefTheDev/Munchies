@@ -2092,6 +2092,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1397768576 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3862921917169012246, guid: aac8228cb256e3f4780c6c66a5bfbb31,
+    type: 3}
+  m_PrefabInstance: {fileID: 3862921916001780183}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1397768577
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397768576}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 27b3b83cb6a45644b8355f084d69e24b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &1553048314
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2279,8 +2304,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -5, y: -305}
-  m_SizeDelta: {x: 596, y: 610}
+  m_AnchoredPosition: {x: 0, y: -40}
+  m_SizeDelta: {x: 596, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1609689512
 MonoBehaviour:
@@ -3244,6 +3269,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3862921917169012241, guid: aac8228cb256e3f4780c6c66a5bfbb31,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3862921917169012241, guid: aac8228cb256e3f4780c6c66a5bfbb31,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3862921917169012241, guid: aac8228cb256e3f4780c6c66a5bfbb31,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3862921917169012245, guid: aac8228cb256e3f4780c6c66a5bfbb31,
         type: 3}
