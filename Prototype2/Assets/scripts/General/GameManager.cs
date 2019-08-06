@@ -26,8 +26,12 @@ public class GameManager : MonoBehaviour
     public float songDuration;
     private float songTimer = 0.0f;
 
+    public int freeBeats = 4;
+
     private bool levelComplete = false;
     private bool paused = false;
+
+    static public bool playerWon = false;
 
     private void Awake()
     {
@@ -75,14 +79,13 @@ public class GameManager : MonoBehaviour
     {
         tempHealthText.text = "Health: " + player.currentHealth;
         tempFullnessText.text = "Fullness: " + player.currentFullness;
-
-        
     }
 
     private void GameBeat()
     {
         player.eatenThisBeat = false;
         player.Beat();
+        if (freeBeats > 0) { freeBeats--; }
 
         foreach (Conveyor conveyor in conveyors)
         {
@@ -108,11 +111,13 @@ public class GameManager : MonoBehaviour
 
     private void LevelComplete()
     {
+        playerWon = true;
         SceneManager.LoadSceneAsync("GameOverScene");
     }
 
-    private void GameOver()
+    public void GameOver()
     {
+        playerWon = false;
         SceneManager.LoadSceneAsync("GameOverScene");
     }
 }
