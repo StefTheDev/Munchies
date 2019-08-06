@@ -131,9 +131,6 @@ public class Player : MonoBehaviour
 
             currentFullness = maxFullness;
 
-            // Debug.Log("Ate food. IsGood = " + food.isGood);
-            Debug.Log("Ate " + food.type);
-
             Destroy(food.gameObject);
 
             audioSource.pitch = Random.Range(0.7f, 1.0f);
@@ -145,6 +142,8 @@ public class Player : MonoBehaviour
 
     public void Beat()
     {
+        if (GameManager.Instance.freeBeats > 0) { return; }
+
         if (currentFullness == 0)
         {
             Damage();
@@ -157,6 +156,11 @@ public class Player : MonoBehaviour
     private void Damage()
     {
         currentHealth--;
+
+        if (currentHealth <= 0)
+        {
+            GameManager.Instance.GameOver();
+        }
     }
 
 }
