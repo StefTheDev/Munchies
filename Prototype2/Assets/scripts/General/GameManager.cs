@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,8 +10,6 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
 
     public static GameManager Instance { get { return instance; } }
-
-    public int score = 0;
 
     public TextMeshPro tempScoreText;
     public TextMeshPro tempHealthText;
@@ -23,6 +22,9 @@ public class GameManager : MonoBehaviour
 
     public float beatInterval = 1.0f;
     private float beatTimer = 0.0f;
+
+    public float songDuration;
+    private float songTimer = 0.0f;
 
     private bool levelComplete = false;
     private bool paused = false;
@@ -47,6 +49,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         beatTimer -= Time.deltaTime;
+        songTimer += Time.deltaTime;
 
         if (beatTimer <= 0.0f)
         {
@@ -54,13 +57,18 @@ public class GameManager : MonoBehaviour
             GameBeat();
         }
 
+        if (songTimer >= songDuration)
+        {
+            LevelComplete();
+        }
+
         if (Input.GetKeyDown(KeyCode.P)) { TogglePause(); }
     }
 
     public void AddScore(int newScore)
     {
-        score += newScore;
-        tempScoreText.text = "Score: " + score;
+        ScoreManager.Instance.AddScore(newScore);
+        tempScoreText.text = "Score: " + ScoreManager.Instance.GetScore();
     }
 
     private void FixedUpdate()
@@ -96,5 +104,15 @@ public class GameManager : MonoBehaviour
         }
 
         paused = !paused;
+    }
+
+    private void LevelComplete()
+    {
+        SceneManager.LoadSceneAsync("GameOverScene");
+    }
+
+    private void GameOver()
+    {
+        SceneManager.LoadSceneAsync("GameOverScene");
     }
 }
