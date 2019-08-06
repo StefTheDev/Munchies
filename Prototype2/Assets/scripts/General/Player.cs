@@ -16,6 +16,9 @@ public class Player : MonoBehaviour
     public int currentHealth;
     public int currentFullness;
 
+    public GameObject mesh;
+    private Animator meshAnimator;
+
     // The most recent directional key pressed by the player determines their position
     Vector3 movePosition;
 
@@ -36,6 +39,7 @@ public class Player : MonoBehaviour
         initialPosition = this.transform.position;
         keys = new bool[4];
         audioSource = GetComponent<AudioSource>();
+        meshAnimator = mesh.GetComponent<Animator>();
         currentHealth = maxHealth;
         currentFullness = maxFullness;
     }
@@ -113,6 +117,8 @@ public class Player : MonoBehaviour
         // If we are colliding with a food object
         if (food)
         {
+            meshAnimator.SetTrigger("Bite");
+
             if (food.isHealthy)
             {
                 GameManager.Instance.AddScore(RecipeManager.foodScore);
@@ -125,9 +131,6 @@ public class Player : MonoBehaviour
 
             currentFullness = maxFullness;
 
-            // Debug.Log("Ate food. IsGood = " + food.isGood);
-            Debug.Log("Ate " + food.type);
-
             Destroy(food.gameObject);
 
             audioSource.pitch = Random.Range(0.7f, 1.0f);
@@ -139,6 +142,8 @@ public class Player : MonoBehaviour
 
     public void Beat()
     {
+        if (GameManager.Instance.freeBeats > 0) { return; }
+
         if (currentFullness == 0)
         {
             Damage();
@@ -151,6 +156,11 @@ public class Player : MonoBehaviour
     private void Damage()
     {
         currentHealth--;
+
+        if (currentHealth <= 0)
+        {
+            GameManager.Instance.GameOver();
+        }
     }
 
 }
