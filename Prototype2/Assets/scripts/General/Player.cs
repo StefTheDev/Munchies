@@ -6,14 +6,12 @@ public class Player : MonoBehaviour
 {
     public float distanceFromCenter = 1.0f;
 
-    public int maxHealth = 4;
     public int maxFullness = 4;
 
     public AudioClip bite1;
 
     private Vector3 initialPosition;
     private AudioSource audioSource;
-    public int currentHealth;
     public int currentFullness;
 
     public CameraShake cameraShake;
@@ -46,7 +44,6 @@ public class Player : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         meshAnimator = mesh.GetComponent<Animator>();
         playerAnimator = GetComponent<Animator>();
-        currentHealth = maxHealth;
         currentFullness = maxFullness;
     }
 
@@ -154,7 +151,7 @@ public class Player : MonoBehaviour
 
         if (currentFullness == 0)
         {
-            Damage();
+            GameManager.Instance.GameOver();
         }
 
         currentFullness = Mathf.Clamp(currentFullness - 1, 0, maxFullness);
@@ -163,14 +160,7 @@ public class Player : MonoBehaviour
 
     private void Damage()
     {
-        currentHealth--;
-
-        if (currentHealth <= 0)
-        {
-            GameManager.Instance.GameOver();
-        }
-
-        StartCoroutine(cameraShake.Shake(shakeDuration, shakeMagnitude));
+        ScoreManager.Instance.AddScore(-10);
     }
 
 }
