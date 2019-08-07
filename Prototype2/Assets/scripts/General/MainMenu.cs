@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
-{
+{ 
+
     public void OnClickPlay()
     {
-        SceneManager.LoadSceneAsync("Tim Scene");
+        SceneManager.LoadSceneAsync("GameScene");
     }
 
     public void OnClickQuit()
