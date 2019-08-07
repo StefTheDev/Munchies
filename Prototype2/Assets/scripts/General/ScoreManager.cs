@@ -66,35 +66,35 @@ public class ScoreManager : MonoBehaviour
         {
             case 1:
                 {
-
+                    EnvironmentMaster.Instance.SetStarNumber(1);
                     Debug.Log("GOT STAR ONE");
                     break;
                 }
 
             case 2:
                 {
-
+                    EnvironmentMaster.Instance.SetStarNumber(2);
                     Debug.Log("GOT STAR TWO");
                     break;
                 }
 
             case 3:
                 {
-
+                    EnvironmentMaster.Instance.SetStarNumber(3);
                     Debug.Log("GOT STAR THREE");
                     break;
                 }
 
             case 4:
                 {
-
+                    EnvironmentMaster.Instance.SetStarNumber(4);
                     Debug.Log("GOT STAR FOUR");
                     break;
                 }
 
             case 5:
                 {
-
+                    EnvironmentMaster.Instance.SetStarNumber(5);
                     Debug.Log("GOT STAR FIVE");
                     break;
                 }

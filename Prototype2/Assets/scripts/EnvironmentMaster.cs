@@ -4,47 +4,67 @@ using UnityEngine;
 
 public class EnvironmentMaster : MonoBehaviour
 {
-    //Scaling Environment
-    [Range(0.0f, 1.0f)]
-    public float environScale = 0.0f;
+    // Singleton
+    private static EnvironmentMaster instance;
 
-    public GameObject prop1;
+    public static EnvironmentMaster Instance { get { return instance; } }
+
+    public GameObject[] props;
+
+    private Animator environmentAnimator;
 
     //Lighting
-    public Light thisLight;
+    public Light[] lights;
 
-    [Range(0.0f, 10.0f)]
-    public float intenseVal = 0.0f;
+    public float finalScale = 1.0f;
+    public float finalIntensity = 10.0f;
 
-    [Range(0.0f, 1.0f)]
-    public float lightR = 0.0f;
+    public float environmentFactor = 0.0f;
+    private bool updateEnvironment = true;
 
-    [Range(0.0f, 1.0f)]
-    public float lightG = 0.0f;
-
-    [Range(0.0f, 1.0f)]
-    public float lightB = 0.0f;
-
-    Color lightCol;
-
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        thisLight = thisLight.GetComponent<Light>();
-        lightR = 1.0f;
-        lightG = 1.0f;
-        lightB = 1.0f;
+        // Singleton
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+
+        environmentAnimator = GetComponent<Animator>();
+
+        UpdateEnvironment();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        prop1.transform.localScale = new Vector3(environScale, environScale, environScale);
+        if (!updateEnvironment) { return; }
 
-        thisLight.intensity = intenseVal;
+        UpdateEnvironment();
+    }
 
-        lightCol = new Vector4(lightR, lightG, lightB, thisLight.color.a);
 
-        thisLight.color = lightCol;
+    public void UpdateEnvironment()
+    {
+        var newScale = environmentFactor * finalScale;
+        foreach (GameObject prop in props)
+        {
+            prop.transform.localScale = new Vector3(newScale, newScale, newScale);
+        }
+
+        var newIntensity = environmentFactor * finalIntensity;
+        foreach (Light light in lights)
+        {
+            light.intensity = newIntensity;
+        }
+    }
+
+    public void SetStarNumber(int starNum)
+    {
+        // environmentFactor = ((float)starNum / 5);
+        environmentAnimator.SetTrigger(starNum.ToString());
     }
 }
