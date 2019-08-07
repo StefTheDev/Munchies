@@ -918,6 +918,11 @@ PrefabInstance:
       propertyPath: beatInterval
       value: 0.54
       objectReference: {fileID: 0}
+    - target: {fileID: 9003760886501234004, guid: e28acb0e449e90740b74899bbc9c7f07,
+        type: 3}
+      propertyPath: songDuration
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 9003760887908444675, guid: e28acb0e449e90740b74899bbc9c7f07,
         type: 3}
       propertyPath: m_Mesh
