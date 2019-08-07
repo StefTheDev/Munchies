@@ -5,43 +5,75 @@ using UnityEngine.UI;
 
 public class RecipeManager2 : MonoBehaviour
 {
+    // Singleton
+    private static RecipeManager2 instance;
+    public static RecipeManager2 Instance { get { return instance; } }
+
     public GridLayoutGroup grid;
     public Image[] images;
 
+    private LinkedList<Image> imagesList;
     private Food[] foods;
 
     private void Start()
     {
-        foods = Resources.LoadAll<Food>("Foods");
-    }
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
 
-    public void Refresh()
-    {
-        
+        foods = Resources.LoadAll<Food>("Foods");
+        imagesList = new LinkedList<Image>();
+
+        foreach(Image image in imagesList)
+        {
+            image.sprite = Random().sprite;
+        }
+
+        LinkedListNode<Image> imageNode = imagesList.First;
+        for (int i = 0; i < images.Length; i++)
+        {
+            images[i].sprite = imageNode.Value.sprite;
+            if (imageNode.Next != null) imageNode = imageNode.Next;
+        }
     }
 
     public void Check(Food food)
     {
-        Image image = images[0];
-        if (image.sprite = food.sprite) Next();
-    }
+        LinkedListNode<Image> image = imagesList.First;
+        if (image.Value.sprite = food.sprite) Next(image);
 
-    public void Next()
-    {
         for(int i = 0; i < images.Length; i++)
         {
-            if(i != (images.Length - 1)) {
-                images[i].sprite = images[i - 1].sprite;
-            }
-            else
-            {
-                images[images.Length - 1].sprite = this.Random();
-            }
+            images[i].sprite = image.Value.sprite;
+            if(image.Next != null) image = image.Next;
         }
     }
 
-    private Sprite Random()
+    public void Next(LinkedListNode<Image> image)
     {
-        return foods[UnityEngine.Random.Range(0, foods.Length)].sprite;
+        while (image != null)
+        {
+            image.Value = image.Next.Value;
+            image = image.Next;
+        }
+    }
+
+    private Food Random()
+    {
+        System.Random random = new System.Random();
+        Food food = foods[UnityEngine.Random.Range(0, foods.Length)];
+        if (food.isHealthy)
+        {
+            return food;
+        }
+        else
+        {
+            return Random();
+        }
     }
 }
