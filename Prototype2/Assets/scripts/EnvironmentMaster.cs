@@ -52,6 +52,7 @@ public class EnvironmentMaster : MonoBehaviour
     public void UpdateEnvironment()
     {
         var newScale = environmentFactor * finalScale;
+        if (environmentFactor < 0.1f) { newScale = 0.00001f; }
         foreach (GameObject prop in props)
         {
             prop.transform.localScale = new Vector3(newScale, newScale, newScale);
