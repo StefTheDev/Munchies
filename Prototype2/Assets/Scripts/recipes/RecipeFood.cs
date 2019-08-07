@@ -3,28 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum FoodState
+{
+    ACTIVE,
+    INACTIVE,
+    COMPLETE
+}
+
 public class RecipeFood : MonoBehaviour
 {
-    private bool consumed;
-    private Image image;
+    public Sprite[] sprites;
+    public Image image;
+    public FoodState foodState;
 
-    private void Start()
+    public void Refresh()
     {
-        image = gameObject.AddComponent<Image>();
-    }
-
-    public void SetConsumed(bool consumed)
-    {
-        this.consumed = consumed;
-    }
-
-    public bool IsConsumed()
-    {
-        return consumed;
-    }
-
-    public Image GetImage()
-    {
-        return image;
+        switch(foodState)
+        {
+            case FoodState.ACTIVE:
+                image.sprite = sprites[0];
+                break;
+            case FoodState.INACTIVE:
+                image.sprite = sprites[1];
+                break;
+            case FoodState.COMPLETE:
+                image.sprite = sprites[2];
+                break;
+        }
     }
 }
