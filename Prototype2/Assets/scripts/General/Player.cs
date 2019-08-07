@@ -6,18 +6,21 @@ public class Player : MonoBehaviour
 {
     public float distanceFromCenter = 1.0f;
 
-    public int maxHealth = 4;
     public int maxFullness = 4;
 
     public AudioClip bite1;
 
     private Vector3 initialPosition;
     private AudioSource audioSource;
-    public int currentHealth;
     public int currentFullness;
+
+    public CameraShake cameraShake;
+    public float shakeMagnitude = 1.0f;
+    public float shakeDuration = 0.5f;
 
     public GameObject mesh;
     private Animator meshAnimator;
+    private Animator playerAnimator;
 
     // The most recent directional key pressed by the player determines their position
     Vector3 movePosition;
@@ -40,7 +43,7 @@ public class Player : MonoBehaviour
         keys = new bool[4];
         audioSource = GetComponent<AudioSource>();
         meshAnimator = mesh.GetComponent<Animator>();
-        currentHealth = maxHealth;
+        playerAnimator = GetComponent<Animator>();
         currentFullness = maxFullness;
     }
 
@@ -122,7 +125,7 @@ public class Player : MonoBehaviour
             if (food.isHealthy)
             {
                 GameManager.Instance.AddScore(RecipeManager.foodScore);
-                RecipeManager.Instance.Check(food);
+                RecipeManager2.Instance.Check(food);
             }
             else
             {
@@ -130,9 +133,6 @@ public class Player : MonoBehaviour
             }
 
             currentFullness = maxFullness;
-
-            // Debug.Log("Ate food. IsGood = " + food.isGood);
-            Debug.Log("Ate " + food.type);
 
             Destroy(food.gameObject);
 
@@ -145,9 +145,13 @@ public class Player : MonoBehaviour
 
     public void Beat()
     {
+        playerAnimator.SetTrigger("Pulse");
+
+        if (GameManager.Instance.freeBeats > 0) { return; }
+
         if (currentFullness == 0)
         {
-            Damage();
+            GameManager.Instance.GameOver();
         }
 
         currentFullness = Mathf.Clamp(currentFullness - 1, 0, maxFullness);
@@ -156,7 +160,7 @@ public class Player : MonoBehaviour
 
     private void Damage()
     {
-        currentHealth--;
+        ScoreManager.Instance.AddScore(-10);
     }
 
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
@@ -11,9 +12,9 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get { return instance; } }
 
-    public TextMeshPro tempScoreText;
-    public TextMeshPro tempHealthText;
-    public TextMeshPro tempFullnessText;
+    public int score = 0;
+
+    public Slider hungerSlider;
 
     public AudioSource levelMusic;
 
@@ -26,8 +27,12 @@ public class GameManager : MonoBehaviour
     public float songDuration;
     private float songTimer = 0.0f;
 
+    public int freeBeats = 4;
+
     private bool levelComplete = false;
     private bool paused = false;
+
+    static public bool playerWon = false;
 
     private void Awake()
     {
@@ -44,6 +49,8 @@ public class GameManager : MonoBehaviour
         Random.InitState((int)System.DateTime.Now.Ticks);
         player = GameObject.FindObjectOfType<Player>();
         conveyors = GameObject.FindObjectsOfType<Conveyor>();
+
+        hungerSlider.maxValue = player.maxFullness;
     }
 
     private void Update()
@@ -67,22 +74,20 @@ public class GameManager : MonoBehaviour
 
     public void AddScore(int newScore)
     {
+        score += newScore;
         ScoreManager.Instance.AddScore(newScore);
-        tempScoreText.text = "Score: " + ScoreManager.Instance.GetScore();
     }
 
     private void FixedUpdate()
     {
-        tempHealthText.text = "Health: " + player.currentHealth;
-        tempFullnessText.text = "Fullness: " + player.currentFullness;
-
-        
+        hungerSlider.value = player.currentFullness;
     }
 
     private void GameBeat()
     {
         player.eatenThisBeat = false;
         player.Beat();
+        if (freeBeats > 0) { freeBeats--; }
 
         foreach (Conveyor conveyor in conveyors)
         {
@@ -108,11 +113,13 @@ public class GameManager : MonoBehaviour
 
     private void LevelComplete()
     {
+        playerWon = true;
         SceneManager.LoadSceneAsync("GameOverScene");
     }
 
-    private void GameOver()
+    public void GameOver()
     {
+        playerWon = false;
         SceneManager.LoadSceneAsync("GameOverScene");
     }
 }
