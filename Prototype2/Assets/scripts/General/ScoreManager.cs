@@ -18,7 +18,7 @@ public class ScoreManager : MonoBehaviour
 
     public Sprite filledStar;
 
-    public Image scoreBar;
+    public Slider scoreBar;
 
     public Image[] stars;
 
@@ -41,13 +41,13 @@ public class ScoreManager : MonoBehaviour
     {
         playerScore = Mathf.Clamp(playerScore + score, 0, int.MaxValue);
 
-        if (playerScore >= (fiveStarScore / 5) * (scoreMilestone + 1))
+        if (playerScore >= (fiveStarScore / 5) * (scoreMilestone + 1) && scoreMilestone != 5)
         {
             scoreMilestone++;
             OnGetStar(scoreMilestone);
         }
 
-        scoreBar.fillAmount = Mathf.Clamp(((float)playerScore / fiveStarScore), 0.0f, 1.0f);
+        scoreBar.value = Mathf.Clamp(((float)playerScore / fiveStarScore), 0.0f, 1.0f);
     }
 
     public int GetScore()
