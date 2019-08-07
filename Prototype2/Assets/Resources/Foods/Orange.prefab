@@ -65,7 +65,7 @@ MonoBehaviour:
   isHealthy: 1
   movePosition: 0
   type: 1
-  sprite: {fileID: 21300000, guid: 4c398c52f3b509446b6c83940a9914c9, type: 3}
+  sprite: {fileID: 21300000, guid: 64c4073401f286949ae6c69e5847aefd, type: 3}
 --- !u!135 &557271267
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -86,11 +86,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7323579160250737280}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: ba59a2c20c91b96469ea9106ba97a171,
-        type: 3}
-      propertyPath: m_Name
-      value: orangeT
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: ba59a2c20c91b96469ea9106ba97a171,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -145,6 +140,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: ba59a2c20c91b96469ea9106ba97a171,
+        type: 3}
+      propertyPath: m_Name
+      value: orangeT
       objectReference: {fileID: 0}
     - target: {fileID: -2416733968201007103, guid: ba59a2c20c91b96469ea9106ba97a171,
         type: 3}
