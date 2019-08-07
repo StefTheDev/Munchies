@@ -8,7 +8,10 @@ public class Player : MonoBehaviour
 
     public int maxFullness = 4;
 
-    public AudioClip bite1;
+    public AudioClip[] biteSounds;
+
+    public AudioClip[] spitSounds;
+
     public Recipe recipe;
 
     private Vector3 initialPosition;
@@ -127,18 +130,17 @@ public class Player : MonoBehaviour
             {
                 GameManager.Instance.AddScore(10);
                 recipe.Check(food);
+                PlayRandomBite();
             }
             else
             {
+                PlayRandomSpit();
                 Damage();
             }
 
             currentFullness = maxFullness;
 
             Destroy(food.gameObject);
-
-            audioSource.pitch = Random.Range(0.7f, 1.0f);
-            audioSource.PlayOneShot(bite1);
 
             eatenThisBeat = true;
         }
@@ -164,4 +166,17 @@ public class Player : MonoBehaviour
         ScoreManager.Instance.AddScore(-10);
     }
 
+    private void PlayRandomBite()
+    {
+        var biteSound = biteSounds[Random.Range(0, biteSounds.Length)];
+        audioSource.pitch = Random.Range(0.7f, 1.0f);
+        audioSource.PlayOneShot(biteSound);
+    }
+
+    private void PlayRandomSpit()
+    {
+        var spitSound = spitSounds[Random.Range(0, spitSounds.Length)];
+        audioSource.pitch = Random.Range(0.7f, 1.0f);
+        audioSource.PlayOneShot(spitSound);
+    }
 }
