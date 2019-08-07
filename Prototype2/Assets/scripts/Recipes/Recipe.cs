@@ -7,81 +7,81 @@ using UnityEngine.UI;
 
 public class Recipe : MonoBehaviour
 {
-    public List<Image> images;
+    private static Recipe instance;
+
+    public static Recipe Instance { get { return instance; } }
+
     public Sprite check;
+    public RecipeFood[] recipeFoods;
 
-    private int completionScore;
-    private Food[] foods;
+    private RecipeFood[] foods;
+    private int score, index;
 
-    private int currentIndex;
-
-    public void Initialise(List<Image> images)
+    private void Awake()
     {
-        foods = Resources.LoadAll<Food>("Foods");
-        currentIndex = 0;
-
-        if (images == null)
+        if (instance != null && instance != this)
         {
-
-            for (int i = 0; i < this.images.Count; i++)
-            {
-                Image image = this.images[i];
-                image.sprite = Random().sprite;
-                currentIndex++;
-            }
+            Destroy(this.gameObject);
         }
         else
         {
-            Debug.Log("Swapping...");
-            for (int i = 0; i < this.images.Count; i++)
+            instance = this;
+        }
+
+        foods = Resources.LoadAll<RecipeFood>("Recipe");
+
+        Refresh();
+    }
+
+    public void Refresh()
+    {
+        index = 0;
+
+        for (int i = 0; i < recipeFoods.Length; i++)
+        {
+            RecipeFood recipeFood = recipeFoods[i];
+            RecipeFood tempFood = foods[UnityEngine.Random.Range(0, foods.Length)];
+
+            recipeFood.sprites = tempFood.sprites;
+            recipeFood.name = tempFood.name;
+
+            recipeFood.foodState = FoodState.INACTIVE;
+
+            if (i == 0)
             {
-                Image image = this.images[i];
-                image.sprite = images[i].sprite;
-                currentIndex++;
+                recipeFood.foodState = FoodState.ACTIVE;
             }
+            else
+            {
+                recipeFood.foodState = FoodState.INACTIVE;
+            }
+            recipeFood.Refresh();
         }
-
-        completionScore = RecipeManager.foodScore * currentIndex;
     }
 
-    public bool Check(Food food)
+    public void Check(Food food)
     {
-        Image image = images[currentIndex - 1];
-        if (food.sprite.name.Equals(image.sprite.name))
+        if (index >= (recipeFoods.Length - 1))
         {
-            images[currentIndex- 1].sprite = check;
-            currentIndex -= 1;
-            return true;
+            Refresh();
+            return;
         }
-        return false;
-    }
 
-    private Food Random()
-    {
-        System.Random random = new System.Random();
-        Food food = foods[UnityEngine.Random.Range(0, foods.Length)];
-        if (food.isHealthy)
+        RecipeFood recipeFood = recipeFoods[index];
+
+        if (food.name.StartsWith(recipeFood.name))
         {
-            return food;
+            recipeFood.foodState = FoodState.COMPLETE;
+            recipeFood.Refresh();
+            index++;
+
+            recipeFood = recipeFoods[index];
+            recipeFood.foodState = FoodState.ACTIVE;
+            recipeFood.Refresh();
         }
         else
         {
-            return Random();
+            Refresh();
         }
-    }
-
-    public int GetIndex()
-    {
-        return currentIndex;
-    }
-
-    public void Complete()
-    {
-        GameManager.Instance.AddScore(completionScore);
-    }
-
-    public List<Image> GetImages()
-    {
-        return images;
     }
 }

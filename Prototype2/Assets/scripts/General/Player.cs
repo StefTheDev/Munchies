@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public int maxFullness = 4;
 
     public AudioClip bite1;
+    public Recipe recipe;
 
     private Vector3 initialPosition;
     private AudioSource audioSource;
@@ -124,8 +125,8 @@ public class Player : MonoBehaviour
 
             if (food.isHealthy)
             {
-                GameManager.Instance.AddScore(RecipeManager.foodScore);
-                RecipeManager2.Instance.Check(food);
+                GameManager.Instance.AddScore(10);
+                recipe.Check(food);
             }
             else
             {
