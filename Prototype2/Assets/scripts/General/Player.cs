@@ -16,8 +16,13 @@ public class Player : MonoBehaviour
     public int currentHealth;
     public int currentFullness;
 
+    public CameraShake cameraShake;
+    public float shakeMagnitude = 1.0f;
+    public float shakeDuration = 0.5f;
+
     public GameObject mesh;
     private Animator meshAnimator;
+    private Animator playerAnimator;
 
     // The most recent directional key pressed by the player determines their position
     Vector3 movePosition;
@@ -40,6 +45,7 @@ public class Player : MonoBehaviour
         keys = new bool[4];
         audioSource = GetComponent<AudioSource>();
         meshAnimator = mesh.GetComponent<Animator>();
+        playerAnimator = GetComponent<Animator>();
         currentHealth = maxHealth;
         currentFullness = maxFullness;
     }
@@ -142,6 +148,8 @@ public class Player : MonoBehaviour
 
     public void Beat()
     {
+        playerAnimator.SetTrigger("Pulse");
+
         if (GameManager.Instance.freeBeats > 0) { return; }
 
         if (currentFullness == 0)
@@ -161,6 +169,8 @@ public class Player : MonoBehaviour
         {
             GameManager.Instance.GameOver();
         }
+
+        StartCoroutine(cameraShake.Shake(shakeDuration, shakeMagnitude));
     }
 
 }
