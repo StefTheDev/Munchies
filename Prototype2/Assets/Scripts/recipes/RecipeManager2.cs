@@ -6,24 +6,42 @@ using UnityEngine.UI;
 public class RecipeManager2 : MonoBehaviour
 {
     public GridLayoutGroup grid;
-    private Recipe2[] recipes2 = new Recipe2[2];
+    public Image[] images;
 
-    public void Create(int index)
+    private Food[] foods;
+
+    private void Start()
     {
-        GameObject gameObject = new GameObject("Recipe");
-        gameObject.transform.SetParent(transform);
-
-        Recipe2 recipe = gameObject.AddComponent<Recipe2>();
-        recipe.Initialise(Random.Range(2, 5));
-        recipes2[index] = recipe;
+        foods = Resources.LoadAll<Food>("Foods");
     }
 
-    public void Refresh(Recipe2 recipe)
+    public void Refresh()
     {
-        List<RecipeFood> recipeFoods = recipe.GetFood();
-        for(int i = 0; i < recipeFoods.Count; i++)
-        {
+        
+    }
 
+    public void Check(Food food)
+    {
+        Image image = images[0];
+        if (image.sprite = food.sprite) Next();
+    }
+
+    public void Next()
+    {
+        for(int i = 0; i < images.Length; i++)
+        {
+            if(i != (images.Length - 1)) {
+                images[i].sprite = images[i - 1].sprite;
+            }
+            else
+            {
+                images[images.Length - 1].sprite = this.Random();
+            }
         }
+    }
+
+    private Sprite Random()
+    {
+        return foods[UnityEngine.Random.Range(0, foods.Length)].sprite;
     }
 }
