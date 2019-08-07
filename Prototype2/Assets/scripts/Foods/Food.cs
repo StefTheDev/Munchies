@@ -7,7 +7,10 @@ public enum FoodType
 {
     APPLE,
     ORANGE,
-    CHIPS
+    BANANA,
+    WATERMELON,
+    ROTTEN_APPLE,
+    ROTTEN_BANANA
 }
 
 public class Food : MonoBehaviour

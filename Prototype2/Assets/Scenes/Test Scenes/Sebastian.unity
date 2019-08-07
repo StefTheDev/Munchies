@@ -24780,7 +24780,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 24d9939affebdbe408badff8859e9bf7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.4
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 24d9939affebdbe408badff8859e9bf7,
         type: 3}
@@ -24887,7 +24887,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 6
   m_Depth: -1
   m_CullingMask:
@@ -24930,6 +24930,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ed1b1a916a2d9d4e81a669de291764e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ppMAT: {fileID: 0}
 --- !u!1 &1350523393
 GameObject:
   m_ObjectHideFlags: 0
