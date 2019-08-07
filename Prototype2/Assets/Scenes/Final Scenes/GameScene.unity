@@ -1594,7 +1594,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 7f657646fbd848e4fa22040b45c39750, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 60e6c57a2cb24bc409b8b1e8cf60de74, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -3170,7 +3170,7 @@ PrefabInstance:
     - target: {fileID: 9003760886501234004, guid: e28acb0e449e90740b74899bbc9c7f07,
         type: 3}
       propertyPath: beatInterval
-      value: 0.54
+      value: 1.08
       objectReference: {fileID: 0}
     - target: {fileID: 9003760886501234004, guid: e28acb0e449e90740b74899bbc9c7f07,
         type: 3}
@@ -9695,7 +9695,7 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 428271467}
-  m_PlaneDistance: 1
+  m_PlaneDistance: 2
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -14515,7 +14515,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8153482811df964cb853e54dbbe2538, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fiveStarScore: 500
+  fiveStarScore: 100
   filledStar: {fileID: 21300000, guid: 554cc1f4488bd1a43a2361d16725bab1, type: 3}
   scoreBar: {fileID: 724664309}
   stars:
@@ -16921,6 +16921,25 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2035446942}
   m_Mesh: {fileID: 8530848500527277276, guid: bc478a66d277fad40aede77d7e91cf09, type: 3}
+--- !u!1 &2036038758 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -2589722752876745091, guid: ddb31f4fd20d2e64191683b1a86087ba,
+    type: 3}
+  m_PrefabInstance: {fileID: 2115232205}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2036038762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036038758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc070976bd7fa446a193ba01c17f671, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blendVal: 0
 --- !u!1 &2036273785
 GameObject:
   m_ObjectHideFlags: 0
@@ -17174,6 +17193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   props: []
+  groundTexture: {fileID: 2036038762}
   lights: []
   finalScale: 1
   finalIntensity: 10
@@ -17566,6 +17586,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ground2
       objectReference: {fileID: 0}
+    - target: {fileID: -6348739315774406262, guid: ddb31f4fd20d2e64191683b1a86087ba,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c6562631cc9831045b6562de7dc1f212, type: 2}
     - target: {fileID: -4216859302048453862, guid: ddb31f4fd20d2e64191683b1a86087ba,
         type: 3}
       propertyPath: m_LocalPosition.x

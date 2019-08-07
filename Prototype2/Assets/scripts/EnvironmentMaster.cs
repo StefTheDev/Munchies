@@ -11,6 +11,8 @@ public class EnvironmentMaster : MonoBehaviour
 
     public GameObject[] props;
 
+    public ChangeMaterial groundTexture;
+
     private Animator environmentAnimator;
 
     //Lighting
@@ -60,6 +62,8 @@ public class EnvironmentMaster : MonoBehaviour
         {
             light.intensity = newIntensity;
         }
+
+        groundTexture.blendVal = environmentFactor;
     }
 
     public void SetStarNumber(int starNum)
