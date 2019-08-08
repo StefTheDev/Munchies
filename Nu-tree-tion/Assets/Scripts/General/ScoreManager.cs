@@ -17,6 +17,7 @@ public class ScoreManager : MonoBehaviour
     private int scoreMilestone = 0;
 
     public Sprite filledStar;
+    public Sprite emptyStar;
 
     public Slider scoreBar;
 
@@ -39,13 +40,19 @@ public class ScoreManager : MonoBehaviour
 
     public void AddScore(int score)
     {
-        playerScore = Mathf.Clamp(playerScore + score, 0, int.MaxValue);
+        playerScore = Mathf.Clamp(playerScore + score, 0, fiveStarScore);
 
-        if (playerScore >= (fiveStarScore / 5) * (scoreMilestone + 1) && scoreMilestone != 5)
-        {
-            scoreMilestone++;
-            OnGetStar(scoreMilestone);
-        }
+        //if (playerScore >= (fiveStarScore / 5) * (scoreMilestone + 1) && scoreMilestone != 5)
+        //{
+        //    scoreMilestone++;
+        //    OnGetStar(scoreMilestone);
+        //}
+
+
+        var oldMilestone = scoreMilestone;
+        scoreMilestone = (int)(playerScore * 5 / fiveStarScore);
+        Debug.Log(scoreMilestone);
+        if (scoreMilestone != oldMilestone) { OnGetStar(scoreMilestone); }
 
         scoreBar.value = Mathf.Clamp(((float)playerScore / fiveStarScore), 0.0f, 1.0f);
     }
@@ -59,8 +66,27 @@ public class ScoreManager : MonoBehaviour
     {
         finalStars = starNum;
 
-        stars[starNum - 1].sprite = filledStar;
-        stars[starNum - 1].GetComponent<Animator>().SetTrigger("Get");
+        // stars[starNum - 1].sprite = filledStar;
+        
+        if (starNum == 0)
+        {
+            stars[0].sprite = emptyStar;
+            return;
+        }
+
+        for (int i = 0; i < stars.Length; i++)
+        {
+            if (i <= (starNum - 1))
+            {
+                stars[i].sprite = filledStar;
+                stars[starNum - 1].GetComponent<Animator>().SetTrigger("Get");
+            }
+            else
+            {
+                stars[i].sprite = emptyStar;
+                stars[starNum - 1].GetComponent<Animator>().SetTrigger("Get");
+            }
+        }
 
         switch (starNum)
         {

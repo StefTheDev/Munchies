@@ -37,6 +37,7 @@ public class Recipe : MonoBehaviour
     {
         index = 0;
 
+
         for (int i = 0; i < recipeFoods.Length; i++)
         {
             RecipeFood recipeFood = recipeFoods[i];
@@ -63,6 +64,8 @@ public class Recipe : MonoBehaviour
     {
         if (index >= (recipeFoods.Length - 1))
         {
+            ScoreManager.Instance.AddScore(100);
+            GameManager.Instance.PlayRecipeComplete();
             Refresh();
             return;
         }
@@ -71,6 +74,8 @@ public class Recipe : MonoBehaviour
 
         if (food.name.StartsWith(recipeFood.name))
         {
+            GameManager.Instance.PlayCorrectIngredient();
+
             recipeFood.foodState = FoodState.COMPLETE;
             recipeFood.Refresh();
             index++;

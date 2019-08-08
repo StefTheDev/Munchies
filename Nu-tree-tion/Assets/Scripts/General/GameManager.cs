@@ -17,9 +17,13 @@ public class GameManager : MonoBehaviour
     public Slider hungerSlider;
 
     public AudioSource levelMusic;
+    public AudioClip correctIngredient;
+    public AudioClip recipeComplete;
 
     private Player player;
     private Conveyor[] conveyors;
+
+    public Slider timer;
 
     public float beatInterval = 1.0f;
     private float beatTimer = 0.0f;
@@ -57,6 +61,8 @@ public class GameManager : MonoBehaviour
     {
         beatTimer -= Time.deltaTime;
         songTimer += Time.deltaTime;
+
+        timer.value = songTimer / songDuration;
 
         if (beatTimer <= 0.0f)
         {
@@ -121,5 +127,15 @@ public class GameManager : MonoBehaviour
     {
         playerWon = false;
         SceneManager.LoadSceneAsync("GameOverScene");
+    }
+
+    public void PlayCorrectIngredient()
+    {
+        GetComponent<AudioSource>().PlayOneShot(correctIngredient, 0.5f);
+    }
+
+    public void PlayRecipeComplete()
+    {
+        GetComponent<AudioSource>().PlayOneShot(recipeComplete, 0.5f);
     }
 }
